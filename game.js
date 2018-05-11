@@ -16,6 +16,7 @@ class Game {
     }
 
     draw() {
+        //can clear by covering previous with background color,OR using clearRect
         this.screen.strokeStyle = "#FFF";
         this.screen.lineWidth = 10;
         this.screen.strokeRect(150, 150, 200, 200);
@@ -26,9 +27,12 @@ class Game {
         this.screen.fillText("Snitch Snatch", 250, 50);
 
         this.player.draw();
+        // this.snitch.draw();
+        // this.beater.draw();
     }
 
     tick() {
+        this.update()
         this.draw()
         // console.log("ticky")
         requestAnimationFrame(this.tick.bind(this))
@@ -44,23 +48,24 @@ class Player {
     constructor(game) {
         this.game = game;
         this.Keyboarder = new Keyboarder();
+        this.center = {x:250, y:250};
+        this.size = {x:40, y:40};
     }
     update() {
-        if (this.Keyboarder.isDown(this.Keyboarder.KEYS.LEFT)) {
-            this.center.x += 2;
-        } else if (this.Keyboarder.isDown(this.Keyboarder.KEYS.RIGHT)) {
+        if (this.Keyboarder.isDown(Keyboarder.KEYS.LEFT)) {
             this.center.x -= 2;
-        } else if (this.Keyboarder.isDown(this.Keyboarder.KEYS.UP)) {
+        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.RIGHT)) {
+            this.center.x += 2;
+        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.UP)) {
             this.center.y -= 2;
-        } else if (this.Keyboarder.isDown(this.Keyboarder.KEYS.DOWN)) {
+        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.DOWN)) {
             this.center.y += 2;
         }
     }
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
-        this.game.screen.fillRect(230, 230, 40, 40);
+        this.game.screen.fillRect(this.center.x-this.size.x/2, this.center.y-this.size.y/2, this.size.x, this.size.y);
     }
-
 
 }
 
@@ -68,6 +73,7 @@ class Player {
 // Added new Keyboarder to Player constructor and Game constructor
 // Added update methods ABOVE draw fields for both Player and Game classes
 // Added update methods to Player, including addition of UP and DOWN
+// Added classes Snitch (Coin) and Beater (bullet?)
 
 
 
@@ -109,15 +115,8 @@ Keyboarder.KEYS = {
     UP: 38,
     DOWN: 40,
     // S: 83
-};
+}
 
-
-
-var canvas = document.getElementById("game-canvas");
-window.addEventListener('load', function () {
-    var game = new Game(canvas);
-    game.tick()
-});
 
 
 // ### Step 4
@@ -133,18 +132,18 @@ class Snitch {
         this.game = game;
     }
 
-    update() {
-        
-    }
+    // update() {
+
+    // }
 
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
-        this.game.screen.fillRect(230, 230, 20, 20);
+        this.game.screen.fillRect(0, 0, 20, 20);
     }
 
-    score() {
+    // score() {
     
-    }
+    // }
 }
 
 // ### Step 5
@@ -156,7 +155,13 @@ class Beater {
         this.game = game;
     }
     draw() {
-        this.game.screen.fillStyle = "#F1B72A";
-        this.game.screen.fillRect(230, 230, 40, 40);
+        this.game.screen.fillStyle = "#2a623d";
+        this.game.screen.fillRect(20, 20, 0, 250);
     }
 }
+
+var canvas = document.getElementById("game-canvas");
+window.addEventListener('load', function () {
+    var game = new Game(canvas);
+    game.tick()
+});
