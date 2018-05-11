@@ -4,6 +4,15 @@ class Game {
         this.screen = canvas.getContext('2d');
         widgets = [];
         this.player = new Player(this);
+        this.keyboarder = new Keyboarder();
+        this.snitch = new Snitch();
+        this.beater = new Beater;
+    }
+
+    update() {
+        this.player.update();
+        // this.snitch.update();
+        // this.beater.update();
     }
 
     draw() {
@@ -24,14 +33,6 @@ class Game {
         // console.log("ticky")
         requestAnimationFrame(this.tick.bind(this))
     }
-
-    update() {
-
-    }
-
-    //make empty array for objects? in constructor?
-    //create a PLayer
-    //draw player
 }
 
 // ### Step 2
@@ -41,17 +42,32 @@ class Game {
 
 class Player {
     constructor(game) {
-        this.game = game
+        this.game = game;
+        this.Keyboarder = new Keyboarder();
+    }
+    update() {
+        if (this.Keyboarder.isDown(this.Keyboarder.KEYS.LEFT)) {
+            this.center.x += 2;
+        } else if (this.Keyboarder.isDown(this.Keyboarder.KEYS.RIGHT)) {
+            this.center.x -= 2;
+        } else if (this.Keyboarder.isDown(this.Keyboarder.KEYS.UP)) {
+            this.center.y -= 2;
+        } else if (this.Keyboarder.isDown(this.Keyboarder.KEYS.DOWN)) {
+            this.center.y += 2;
+        }
     }
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
         this.game.screen.fillRect(230, 230, 40, 40);
     }
-    update() {
-        
-    }
+
 
 }
+
+// NOTES FROM WHAT IM DOING THURS NIGHT: 
+// Added new Keyboarder to Player constructor and Game constructor
+// Added update methods ABOVE draw fields for both Player and Game classes
+// Added update methods to Player, including addition of UP and DOWN
 
 
 
@@ -92,16 +108,18 @@ Keyboarder.KEYS = {
     RIGHT: 39,
     UP: 38,
     DOWN: 40,
-    S: 83
+    // S: 83
 };
 
 
 
 var canvas = document.getElementById("game-canvas");
-// window.addEventListener('load', function() {
-var game = new Game(canvas);
-game.tick()
-//   });
+window.addEventListener('load', function () {
+    var game = new Game(canvas);
+    game.tick()
+});
+
+
 // ### Step 4
 
 // Add a coin for the player to gather to the game. This coin, like in the example game, should appear in a random position that is not the player's current position. When the player collects it, it should disappear and reappear elsewhere.
@@ -110,13 +128,35 @@ game.tick()
 
 // To do this, you will likely want to create a `Coin` class.
 
+class Snitch {
+    constructor(game) {
+        this.game = game;
+    }
+
+    update() {
+        
+    }
+
+    draw() {
+        this.game.screen.fillStyle = "#F1B72A";
+        this.game.screen.fillRect(230, 230, 20, 20);
+    }
+
+    score() {
+    
+    }
+}
+
 // ### Step 5
 
 // Add hazards to the game. These hazards work like in the example game: flying squares that come from a random edge of the canvas and travel to the opposite edge. They should cross through the outer rectangle that encloses the player. If the player and a hazard collide, reset the score.
 
-// ## Additional resources
-
-// * [Canvas tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial)
-// * [Canvas chapter from _Eloquent JavaScript_](https://eloquentjavascript.net/17_canvas.html)
-// * [Game project from _Eloquent JavaScript_](https://eloquentjavascript.net/3rd_edition/16_game.html)
-// * [Lessmilk Game Tutorials](http://www.lessmilk.com/)
+class Beater {
+    constructor(game) {
+        this.game = game;
+    }
+    draw() {
+        this.game.screen.fillStyle = "#F1B72A";
+        this.game.screen.fillRect(230, 230, 40, 40);
+    }
+}
