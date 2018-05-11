@@ -15,8 +15,9 @@ class Game {
 
     update() {
 
-        if (colliding (this.player, this.snitch)) {
+        if (colliding (this.snitch, this.player)) {
             this.snitch.update();
+            console.log(this.snitch.center, this.player.center);
             }//detect collisions from ?
         this.player.update();
         
@@ -66,18 +67,19 @@ class Player {
     }
     update() {
         if (this.Keyboarder.isDown(Keyboarder.KEYS.LEFT) && this.center.x > 181) {
-            this.center.x -= 5;
+            this.center.x -= 1;
         } else if (this.Keyboarder.isDown(Keyboarder.KEYS.RIGHT) && this.center.x < 320) {
-            this.center.x += 5;
+            this.center.x += 1;
         } else if (this.Keyboarder.isDown(Keyboarder.KEYS.UP) && this.center.y > 181) {
-            this.center.y -= 5;
+            this.center.y -= 1;
         } else if (this.Keyboarder.isDown(Keyboarder.KEYS.DOWN) && this.center.y < 320) {
-            this.center.y += 5;
+            this.center.y += 1;
         }
     }
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
         this.game.screen.fillRect(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.size.x, this.size.y);
+        //HERE try the same fillRect as Snitch and then change the other nums?
     }
 }
 
@@ -131,19 +133,12 @@ class Snitch {
     constructor(game) {
         this.game = game;
         this.center = {x:155, y:155};
-        this.size = {
-            x: 20,
-            y: 20
-        };
+        this.size = {x:20, y:20};
     }
 
     update() {
-        //if no collision, {
-        //     don't change position
-        // } else {}
-        this.center.x = Math.floor(Math.random() * (310 - 191 + 1)) + 191;
-        this.center.y = Math.floor(Math.random() * (310 - 191 + 1)) + 191;
-        // console.log("snitch")
+        this.center.x = Math.floor(Math.random() * (310 - 191 + 1)) + 155;
+        this.center.y = Math.floor(Math.random() * (310 - 191 + 1)) + 155;
     }
 
     draw() {
@@ -173,18 +168,27 @@ class Snitch {
 //     }
 // }
 
+// var colliding = function (b1, b2) {
+//     return !(
+//         b1 === b2 ||
+//         b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
+//         b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
+//         b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
+//         b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
+//     );
+// };
 var colliding = function (b1, b2) {
     return !(
         b1 === b2 ||
-        b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-        b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
-        b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
-        b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
+        b1.center.x + 10 < b2.center.x - 20 ||
+        b1.center.y + 10 < b2.center.y - 20 ||
+        b1.center.x - 10 > b2.center.x + 20 ||
+        b1.center.y - 10 > b2.center.y + 20
     );
 };
-
 var canvas = document.getElementById("game-canvas");
 window.addEventListener('load', function () {
     var game = new Game(canvas);
     game.tick()
 });
+
