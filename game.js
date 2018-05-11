@@ -66,19 +66,20 @@ class Player {
         };
     }
     update() {
-        if (this.Keyboarder.isDown(Keyboarder.KEYS.LEFT) && this.center.x > 181) {
-            this.center.x -= 1;
-        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.RIGHT) && this.center.x < 320) {
-            this.center.x += 1;
-        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.UP) && this.center.y > 181) {
-            this.center.y -= 1;
-        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.DOWN) && this.center.y < 320) {
-            this.center.y += 1;
+        if (this.Keyboarder.isDown(Keyboarder.KEYS.LEFT) && this.center.x > 175) {
+            this.center.x -= 2;
+        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.RIGHT) && this.center.x < 325) {
+            this.center.x += 2;
+        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.UP) && this.center.y > 175) {
+            this.center.y -= 2;
+        } else if (this.Keyboarder.isDown(Keyboarder.KEYS.DOWN) && this.center.y < 325) {
+            this.center.y += 2;
         }
     }
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
-        this.game.screen.fillRect(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.size.x, this.size.y);
+        this.game.screen.fillRect(this.center.x-20, this.center.y-20, this.size.x, this.size.y);
+        // this.game.screen.fillRect(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.size.x, this.size.y);
         //HERE try the same fillRect as Snitch and then change the other nums?
     }
 }
@@ -132,18 +133,18 @@ Keyboarder.KEYS = {
 class Snitch {
     constructor(game) {
         this.game = game;
-        this.center = {x:155, y:155};
+        this.center = {x:175, y:175};
         this.size = {x:20, y:20};
     }
 
     update() {
-        this.center.x = Math.floor(Math.random() * (310 - 191 + 1)) + 155;
-        this.center.y = Math.floor(Math.random() * (310 - 191 + 1)) + 155;
+        this.center.x = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
+        this.center.y = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
     }
 
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
-        this.game.screen.fillRect(this.center.x, this.center.y, this.size.x, this.size.y);
+        this.game.screen.fillRect(this.center.x-10, this.center.y-10, this.size.x, this.size.y);
     }
 
     // score() {
@@ -168,24 +169,16 @@ class Snitch {
 //     }
 // }
 
-// var colliding = function (b1, b2) {
-//     return !(
-//         b1 === b2 ||
-//         b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-//         b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
-//         b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
-//         b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
-//     );
-// };
 var colliding = function (b1, b2) {
     return !(
         b1 === b2 ||
-        b1.center.x + 10 < b2.center.x - 20 ||
-        b1.center.y + 10 < b2.center.y - 20 ||
-        b1.center.x - 10 > b2.center.x + 20 ||
-        b1.center.y - 10 > b2.center.y + 20
+        b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
+        b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
+        b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
+        b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
     );
 };
+
 var canvas = document.getElementById("game-canvas");
 window.addEventListener('load', function () {
     var game = new Game(canvas);
