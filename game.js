@@ -3,6 +3,7 @@ class Game {
         this.canvas = canvas;
         this.screen = canvas.getContext('2d');
         widgets = [];
+        this.gameSize = {x:canvas.width, y: canvas.height}
         this.player = new Player(this);
         this.keyboarder = new Keyboarder();
         this.snitch = new Snitch();
@@ -17,6 +18,10 @@ class Game {
 
     draw() {
         //can clear by covering previous with background color,OR using clearRect
+        // screen.clearRect(0, 0, gameSize.x, gameSize.y);
+        this.screen.clearRect(0, 0, this.gameSize.x, this.gameSize.y)
+        
+
         this.screen.strokeStyle = "#FFF";
         this.screen.lineWidth = 10;
         this.screen.strokeRect(150, 150, 200, 200);
@@ -53,13 +58,13 @@ class Player {
     }
     update() {
         if (this.Keyboarder.isDown(Keyboarder.KEYS.LEFT)) {
-            this.center.x -= 2;
+            this.center.x -= 10;
         } else if (this.Keyboarder.isDown(Keyboarder.KEYS.RIGHT)) {
-            this.center.x += 2;
+            this.center.x += 10;
         } else if (this.Keyboarder.isDown(Keyboarder.KEYS.UP)) {
-            this.center.y -= 2;
+            this.center.y -= 10;
         } else if (this.Keyboarder.isDown(Keyboarder.KEYS.DOWN)) {
-            this.center.y += 2;
+            this.center.y += 10;
         }
     }
     draw() {
@@ -130,6 +135,8 @@ Keyboarder.KEYS = {
 class Snitch {
     constructor(game) {
         this.game = game;
+        // this.size = 
+        // this.center = 
     }
 
     // update() {
@@ -138,7 +145,7 @@ class Snitch {
 
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
-        this.game.screen.fillRect(0, 0, 20, 20);
+        // this.game.screen.fillRect(0, 0, 20, 20);
     }
 
     // score() {
@@ -153,10 +160,12 @@ class Snitch {
 class Beater {
     constructor(game) {
         this.game = game;
+        // this.size = 
+        // this.center = 
     }
     draw() {
         this.game.screen.fillStyle = "#2a623d";
-        this.game.screen.fillRect(20, 20, 0, 250);
+        // this.game.screen.fillRect(20, 20, 0, 250);
     }
 }
 
