@@ -10,20 +10,25 @@ class Game {
         this.player = new Player(this);
         this.keyboarder = new Keyboarder();
         this.snitch = new Snitch(this);
-        // this.bludger = new Bludger();
+        this.bludger = new Bludger(this);
     }
 
-//Add an array for the "bodies"
+    //Add an array for the "bodies"
 
     update() {
 
-        if (colliding (this.snitch, this.player)) {
+        if (colliding(this.snitch, this.player)) {
             score = score + 1;
             this.snitch.update();
             console.log(score)
-            }
+        } 
+        // else if {
+        //     (colliding(this.player, this.bludger)) {
+
+        //     }
+        // }
         this.player.update();
-        
+
         // this.bludger.update();
     }
 
@@ -40,16 +45,17 @@ class Game {
         this.screen.font = "40px Arial";
         this.screen.fillStyle = "#FFF";
         this.screen.textAlign = "center";
-        this.screen.fillText("Snitch Snatch", 250, 50);
+        this.screen.fillText("Snitch Snatch", 150, 50);
 
         this.screen.font = "40px Arial";
         this.screen.fillStyle = "#FFF";
         this.screen.textAlign = "right";
-        this.screen.fillText("Score: " + score, 450, 450);
+        this.screen.fillText("Score: " + score, 450, 475);
 
         this.player.draw();
         this.snitch.draw();
-        // this.bludger.draw(); or somehow push bludgers into array/onto screen
+        this.bludger.draw(); 
+        // or somehow push bludgers into array/onto screen
     }
 
     tick() {
@@ -86,7 +92,7 @@ class Player {
     }
     draw() {
         this.game.screen.fillStyle = "#FB712A";
-        this.game.screen.fillRect(this.center.x-20, this.center.y-20, this.size.x, this.size.y);
+        this.game.screen.fillRect(this.center.x - 20, this.center.y - 20, this.size.x, this.size.y);
         // this.game.screen.fillRect(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.size.x, this.size.y);
     }
 }
@@ -95,24 +101,31 @@ class Player {
 class Snitch {
     constructor(game) {
         this.game = game;
-        this.center = {x:175, y:175};
-        this.size = {x:20, y:20};
+        this.center = {
+            x: 175,
+            y: 175
+        };
+        this.size = {
+            x: 20,
+            y: 20
+        };
     }
 
 
     update() {
         this.center.x = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
         this.center.y = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
-        if (colliding (this.snitch, this.player)) {
-            this.snitch.update} else {
-                this.center.x = this.center.x;
-                this.center.y = this.center.y;
-            }
+        if (colliding(this.snitch, this.player)) {
+            this.snitch.update
+        } else {
+            this.center.x = this.center.x;
+            this.center.y = this.center.y;
+        }
     }
 
     draw() {
         this.game.screen.fillStyle = "#F1B72A";
-        this.game.screen.fillRect(this.center.x-10, this.center.y-10, this.size.x, this.size.y);
+        this.game.screen.fillRect(this.center.x - 10, this.center.y - 10, this.size.x, this.size.y);
     }
 }
 
@@ -120,20 +133,28 @@ class Snitch {
 
 // Add hazards to the game. These hazards work like in the example game: flying squares that come from a random edge of the canvas and travel to the opposite edge. They should cross through the outer rectangle that encloses the player. If the player and a hazard collide, reset the score.
 
-// class Bludger {
-//     constructor(game) {
-//         this.game = game;
-//         // this.size = 
-//         // this.center = 
-//     }
-//     draw() {
-//         this.game.screen.fillStyle = "#000";
-//         // this.game.screen.fillRect(20, 20, 0, 250);
-//     }
+class Bludger {
+    constructor(game) {
+        this.game = game;
+        // this.player = player;
+        this.size = {x: 30, y:30}
+        this.center = {x: 15, y:200}
+        // RANDOM with either X or Y set to 0 or 500
+    }
 
-    // update () {
-    // }
+    draw() {
+        this.game.screen.fillStyle = "#000";
+        this.game.screen.fillRect(this.center.x-15, this.center.y-15, this.size.x, this.size.y);
+    }
+// update() {
+//     if (colliding (this.bludger, this.player)) {
+//         this.bludger.update} else {
+//             this.center.x = this.center.x + 0.5;
+//              this.center.y = this.center.y + 0.5;
+//         }
 // }
+}
+
 var score = 0;
 var colliding = function (b1, b2) {
     return !(
@@ -184,4 +205,3 @@ window.addEventListener('load', function () {
     var game = new Game(canvas);
     game.tick()
 });
-
