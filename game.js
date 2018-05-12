@@ -13,6 +13,8 @@ class Game {
         // this.bludger = new Bludger();
     }
 
+//Add an array for the "bodies"
+
     update() {
 
         if (colliding (this.snitch, this.player)) {
@@ -36,18 +38,18 @@ class Game {
         this.screen.strokeRect(150, 150, 200, 200);
 
         this.screen.font = "40px Arial";
-        this.screen.fillStyle = "#F1B72A";
+        this.screen.fillStyle = "#FFF";
         this.screen.textAlign = "center";
         this.screen.fillText("Snitch Snatch", 250, 50);
 
         this.screen.font = "40px Arial";
-        this.screen.fillStyle = "#F1B72A";
+        this.screen.fillStyle = "#FFF";
         this.screen.textAlign = "right";
         this.screen.fillText("Score: " + score, 450, 450);
 
         this.player.draw();
         this.snitch.draw();
-        // this.bludger.draw();
+        // this.bludger.draw(); or somehow push bludgers into array/onto screen
     }
 
     tick() {
@@ -83,58 +85,13 @@ class Player {
         }
     }
     draw() {
-        this.game.screen.fillStyle = "#F1B72A";
+        this.game.screen.fillStyle = "#FB712A";
         this.game.screen.fillRect(this.center.x-20, this.center.y-20, this.size.x, this.size.y);
         // this.game.screen.fillRect(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.size.x, this.size.y);
     }
 }
 
-class Keyboarder {
-    constructor() {
-        this.keyState = {}
 
-        window.addEventListener('keydown', function (e) {
-            this.keyState[e.keyCode] = true
-        }.bind(this))
-
-        window.addEventListener('keyup', function (e) {
-            this.keyState[e.keyCode] = false
-        }.bind(this))
-    }
-
-    isDown(keyCode) {
-        return this.keyState[keyCode] === true
-    }
-
-    on(keyCode, callback) {
-        window.addEventListener('keydown', function (e) {
-            if (e.keyCode === keyCode) {
-                callback()
-            }
-        })
-    }
-}
-
-Keyboarder.KEYS = {
-    LEFT: 37,
-    RIGHT: 39,
-    UP: 38,
-    DOWN: 40,
-    // S: 83
-}
-
-
-
-// ### Step 4
-
-// Add a coin for the player to gather to the game. This coin, like in the example game, should appear in a random position that is not the player's current position. When the player collects it, it should disappear and reappear elsewhere.
-
-// Add a score to the game. The score should go up by one every time the coin is collected.
-
-// To do this, you will likely want to create a `Coin` class.
-
-
-//"Coin"
 class Snitch {
     constructor(game) {
         this.game = game;
@@ -173,6 +130,9 @@ class Snitch {
 //         this.game.screen.fillStyle = "#000";
 //         // this.game.screen.fillRect(20, 20, 0, 250);
 //     }
+
+    // update () {
+    // }
 // }
 var score = 0;
 var colliding = function (b1, b2) {
@@ -184,6 +144,40 @@ var colliding = function (b1, b2) {
         b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
     );
 };
+
+class Keyboarder {
+    constructor() {
+        this.keyState = {}
+
+        window.addEventListener('keydown', function (e) {
+            this.keyState[e.keyCode] = true
+        }.bind(this))
+
+        window.addEventListener('keyup', function (e) {
+            this.keyState[e.keyCode] = false
+        }.bind(this))
+    }
+
+    isDown(keyCode) {
+        return this.keyState[keyCode] === true
+    }
+
+    on(keyCode, callback) {
+        window.addEventListener('keydown', function (e) {
+            if (e.keyCode === keyCode) {
+                callback()
+            }
+        })
+    }
+}
+
+Keyboarder.KEYS = {
+    LEFT: 37,
+    RIGHT: 39,
+    UP: 38,
+    DOWN: 40,
+    // S: 83
+}
 
 var canvas = document.getElementById("game-canvas");
 window.addEventListener('load', function () {
