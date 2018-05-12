@@ -80,7 +80,6 @@ class Player {
         this.game.screen.fillStyle = "#F1B72A";
         this.game.screen.fillRect(this.center.x-20, this.center.y-20, this.size.x, this.size.y);
         // this.game.screen.fillRect(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.size.x, this.size.y);
-        //HERE try the same fillRect as Snitch and then change the other nums?
     }
 }
 
@@ -135,11 +134,18 @@ class Snitch {
         this.game = game;
         this.center = {x:175, y:175};
         this.size = {x:20, y:20};
+        // this.player = player;
+        // this.snitch = snitch;
     }
 
     update() {
         this.center.x = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
         this.center.y = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
+        if (colliding (this.snitch, this.player)) {
+            this.snitch.update} else {
+                this.center.x = this.center.x;
+                this.center.y = this.center.y;
+            }
     }
 
     draw() {
