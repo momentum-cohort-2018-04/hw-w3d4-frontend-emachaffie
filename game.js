@@ -10,18 +10,19 @@ class Game {
         this.player = new Player(this);
         this.keyboarder = new Keyboarder();
         this.snitch = new Snitch(this);
-        // this.beater = new Beater();
+        // this.bludger = new Bludger();
     }
 
     update() {
 
         if (colliding (this.snitch, this.player)) {
+            score = score + 1;
             this.snitch.update();
-            console.log(this.snitch.center, this.player.center);
-            }//detect collisions from ?
+            console.log(score)
+            }
         this.player.update();
         
-        // this.beater.update();
+        // this.bludger.update();
     }
 
     draw() {
@@ -39,9 +40,14 @@ class Game {
         this.screen.textAlign = "center";
         this.screen.fillText("Snitch Snatch", 250, 50);
 
+        this.screen.font = "40px Arial";
+        this.screen.fillStyle = "#F1B72A";
+        this.screen.textAlign = "right";
+        this.screen.fillText("Score: " + score, 450, 450);
+
         this.player.draw();
         this.snitch.draw();
-        // this.beater.draw();
+        // this.bludger.draw();
     }
 
     tick() {
@@ -134,9 +140,8 @@ class Snitch {
         this.game = game;
         this.center = {x:175, y:175};
         this.size = {x:20, y:20};
-        // this.player = player;
-        // this.snitch = snitch;
     }
+
 
     update() {
         this.center.x = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
@@ -152,29 +157,24 @@ class Snitch {
         this.game.screen.fillStyle = "#F1B72A";
         this.game.screen.fillRect(this.center.x-10, this.center.y-10, this.size.x, this.size.y);
     }
-
-    // score() {
-    // when collision with Player, 
-    //  score += score
-    // }
 }
 
 // ### Step 5
 
 // Add hazards to the game. These hazards work like in the example game: flying squares that come from a random edge of the canvas and travel to the opposite edge. They should cross through the outer rectangle that encloses the player. If the player and a hazard collide, reset the score.
 
-// class Beater {
+// class Bludger {
 //     constructor(game) {
 //         this.game = game;
 //         // this.size = 
 //         // this.center = 
 //     }
 //     draw() {
-//         this.game.screen.fillStyle = "#2a623d";
+//         this.game.screen.fillStyle = "#000";
 //         // this.game.screen.fillRect(20, 20, 0, 250);
 //     }
 // }
-
+var score = 0;
 var colliding = function (b1, b2) {
     return !(
         b1 === b2 ||
