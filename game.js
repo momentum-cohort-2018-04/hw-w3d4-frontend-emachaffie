@@ -13,8 +13,6 @@ class Game {
         this.bludger = new Bludger(this);
     }
 
-    //Add an array for the "bodies"
-
     update() {
 
         if (colliding(this.snitch, this.player)) {
@@ -25,14 +23,24 @@ class Game {
 
         if (colliding(this.player, this.bludger)) {
             score = 0;
-            //Destroy both and create new player
+            // this.bodies.push(bludger);
+            //Destroy both and create new player and continue bludgers...
             
         } 
+
         // else {
         this.player.update();
         this.bludger.update();
+        // Code below TESTING
+        this.bodies = this.bodies.concat(new Bludger(this));
+        this.bodies = this.bodies.concat(new Player(this));
+
     // }
     }
+
+    addBody (body) {
+        this.bodies.push(body);
+      };
 
     draw() {
         //can clear by covering previous with background color,OR using clearRect
@@ -137,6 +145,7 @@ class Snitch {
 
 class Bludger {
     constructor(game) {
+        // this.bludger = new Bludger;
         this.game = game;
         this.size = {x: 30, y:30}
         this.center = {x: 200, y:15}
@@ -157,6 +166,7 @@ class Bludger {
 
     update () {
         this.center.y+=2;
+        // this.game.addBody(bludger);
     }
 }
 
