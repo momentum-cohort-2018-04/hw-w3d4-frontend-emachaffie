@@ -2,7 +2,7 @@ class Game {
     constructor(canvas) {
         this.canvas = canvas;
         this.screen = canvas.getContext('2d');
-        widgets = [];
+        this.bodies = [];
         this.gameSize = {
             x: canvas.width,
             y: canvas.height
@@ -21,15 +21,17 @@ class Game {
             score = score + 1;
             this.snitch.update();
             console.log(score)
+        };
+
+        if (colliding(this.player, this.bludger)) {
+            score = 0;
+            //Destroy both and create new player
+            
         } 
-        // else if {
-        //     (colliding(this.player, this.bludger)) {
-
-        //     }
-        // }
+        // else {
         this.player.update();
-
-        // this.bludger.update();
+        this.bludger.update();
+    // }
     }
 
     draw() {
@@ -91,7 +93,7 @@ class Player {
         }
     }
     draw() {
-        this.game.screen.fillStyle = "#FB712A";
+        this.game.screen.fillStyle = "#ae0001";
         this.game.screen.fillRect(this.center.x - 20, this.center.y - 20, this.size.x, this.size.y);
         // this.game.screen.fillRect(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.size.x, this.size.y);
     }
@@ -136,9 +138,8 @@ class Snitch {
 class Bludger {
     constructor(game) {
         this.game = game;
-        // this.player = player;
         this.size = {x: 30, y:30}
-        this.center = {x: 15, y:200}
+        this.center = {x: 200, y:15}
         // RANDOM with either X or Y set to 0 or 500
     }
 
@@ -153,18 +154,12 @@ class Bludger {
 //              this.center.y = this.center.y + 0.5;
 //         }
 // }
+
+    update () {
+        this.center.y+=2;
+    }
 }
 
-var score = 0;
-var colliding = function (b1, b2) {
-    return !(
-        b1 === b2 ||
-        b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-        b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
-        b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
-        b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
-    );
-};
 
 class Keyboarder {
     constructor() {
@@ -199,6 +194,29 @@ Keyboarder.KEYS = {
     DOWN: 40,
     // S: 83
 }
+
+var bludgerStartTop = function () {
+    x = Math.floor(Math.random() * (335 - 175 + 1)) + 175;
+    // y = Math.floor(Math.random() * (335 - 175 + 1)) + 175
+    bludgerStartTop = x;
+    console.log(x)
+}
+
+var score = 0;
+
+var colliding = function (b1, b2) {
+    return !(
+        b1 === b2 ||
+        b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
+        b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
+        b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
+        b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
+    );
+};
+
+// var notCollidingWithAnything = function(b1) {
+//     return this.bodies.filter(function(b2) { return colliding(b1, b2); }).length === 0;
+//   };
 
 var canvas = document.getElementById("game-canvas");
 window.addEventListener('load', function () {
